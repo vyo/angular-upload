@@ -5,109 +5,17 @@ Upload files using FormData, fall back to iframe upload when FormData isn't supp
  - Lightweight
  - No dependency on jQuery
 
-## Example
-```html
-<div
-  class="btn btn-primary btn-upload"
-  upload-button
-  url="/upload"
-  on-success="onSuccess(response)"
->Upload</div>
-```
-
-## Install
-Install via bower
+##Disclaimer
+This fork is a minor variation of the original module at [angular-upload](https://github.com/leon/angular-upload), removing numbered parameters on multi-file uploads.
+You will not be able to load this from bower directly, so your best bet is to load the original version
+with
 ```sh
 bower install --save angular-upload
 ```
+and then overwrite the source folder and the angular-upload.js and angular-upload.min.js files with those from this fork.
 
-Add the module to your app dependencies and include it in your page
-```js
-angular.module('app', [
-  'lr.upload'
-]);
-```
-```html
-<script src='bower_components/angular-upload/angular-upload.min.js'></script>
-```
 
-and to your less/css if you want the upload button
-
-```css
-@import "bower_components/angular-upload/src/directives/btnUpload.less"; /* or .min.css */
-```
-
-And you are good to go!
-
-## Documentation over parameters
-
-### Upload button
-The upload button masks the normal file input and makes it look like a button
-
-```html
-<div
-  class="btn btn-primary btn-upload"
-  upload-button
-
-  // Mandatory, the url of the backend that is going to handle the upload
-  url="/upload"
-
-  // Optional, file param name for upload
-  param="file"
-
-  // Optional, object to send as form data with the upload
-  data="formData"
-
-  // Optional, comma separated list or array of allowed mimetypes, defaults to allowing all types
-  accept="{{acceptTypes}}"
-
-  // Optional, Allow selecting multiple files, defaults to false
-  multiple="{{allowMultiple}}"
-
-  // Optional, force all uploads through the iframe solution, defaults to false and should normally not be included
-  force-iframe-upload="{{forceIframeUpload}}"
-
-  // Optional, make file input required and add ng-invalid-required if required is set to true on the input button
-  required="true|false"
-
-  on-upload="onUpload(files)" // Optional callback when uploading starts
-  on-success="onSuccess(response)" // Optional callback
-  on-error="onError(response)" // Optional callback
-  on-complete="onComplete(response)" // Optional, callback (called on both on-success and on-error)
-
->Fileupload</div>
-```
-
-## Advanced documentation
-The upload service that is used behind the scenes in the upload button, can be used in a controller by injecting `upload`
-
-```html
-<body ng-app="app" ng-controller="AppCtrl">
-    <input name="myFile" type="file" />
-</body>
-```
-
-```js
-angular.module('app').controller('AppCtrl', function ($scope, upload) {
-  $scope.doUpload = function () {
-    upload({
-      url: '/upload',
-      data: {
-        anint: 123,
-        aBlob: Blob([1,2,3]), // Only works in newer browsers
-        aFile: $scope.myFile, // a jqLite type="file" element, upload() will extract all the files from the input and put them into the FormData object before sending.
-      }
-    }).then(
-      function (response) {
-        console.log(response.data); // will output whatever you choose to return from the server on a successful upload
-      },
-      function (response) {
-          console.error(response); //  Will return if status code is above 200 and lower than 300, same as $http
-      }
-    );
-  }
-});
-```
+Alternatively you can build and wire it up manually, of course.
 
 ## Build it yourself!
 angular-upload is built with grunt and has a express backend for testing.
