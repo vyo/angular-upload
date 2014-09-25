@@ -25,10 +25,10 @@ angular.module('lr.upload.formdata', [])
           if (files.length !== 0) {
 
             // If we have multiple files we send them as a 0 based array of params
-            // file[0]=file1&file[1]=file2...
+            // file=file1&file=file2... making life easier for Spring's @RequestParam
             if (files.length > 1) {
               angular.forEach(files, function (file, index) {
-                formData.append(key + '[' + index + ']', file);
+                formData.append(key, file);
               });
             } else {
               formData.append(key, files[0]);
